@@ -41,7 +41,7 @@ function Mutate(string Command, PlayerController PC)
     {
         Json = new class'JsonObject';
         Json.AddValue("TestKey", "TestValue");
-        EventGrid.SendEvent("TestTopic", None);
+        EventGrid.SendEvent("TestTopic", Json);
     }
     
     if(NextMutator != None)

@@ -4,15 +4,8 @@ var EventGrid EventGrid;
 
 function PostBeginPlay()
 {
-    local bool bFound;
-
     Super.PostBeginPlay();
-
     SpawnTestSubscriber();
-    EventGrid = FindEventGrid();
-    bFound = EventGrid != None;
-
-    log("MutTestSubscription: found EventGrid:" $ eval(bFound, "True", "False"));
 }
 
 function SpawnTestSubscriber()
@@ -36,11 +29,16 @@ function EventGrid FindEventGrid()
 function Mutate(string Command, PlayerController PC)
 {
     local JsonObject Json;
+    local bool bFound;
 
     if(Command ~= "TestSubscription")
     {
+        EventGrid = FindEventGrid();
+        bFound = EventGrid != None;
+        log("MutTestSubscription: found EventGrid:" $ eval(bFound, "True", "False"));
+
         Json = new class'JsonObject';
-        Json.AddValue("TestKey", "TestValue");
+        Json.AddString("TestKey", "TestValue");
         EventGrid.SendEvent("TestTopic", Json);
     }
     

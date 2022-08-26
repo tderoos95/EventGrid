@@ -4,16 +4,13 @@ const TestTopic = "TestTopic";
 
 function ProcessEvent(string Topic, JsonObject EventData)
 {
-    local string Data;
-
     log("ProcessEvent: " $ Topic);
 
     if(Topic ~= TestTopic)
     {
 
         log("Received test topic");
-        Data = EventData.GetValue("TestKey");
-        log("Received event data: " $ Data);
+        log("Received event data: " $ EventData.ToString());
     }
 }
 

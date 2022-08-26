@@ -12,7 +12,6 @@ function ProcessEvent(string Topic, JsonObject EventData)
     {
 
         log("Received test topic");
-
         Data = EventData.GetValue("TestKey");
         log("Received event data: " $ Data);
     }

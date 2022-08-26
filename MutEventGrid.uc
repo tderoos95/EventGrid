@@ -5,7 +5,6 @@ var EventGrid EventGrid;
 function PreBeginPlay()
 {
     EventGrid = Spawn(class'EventGrid');
-    log("Spawned EventGrid");
     Super.PreBeginPlay();
 }
 

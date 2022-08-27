@@ -1,6 +1,7 @@
 class EventGridSubscriber extends Info;
 
 var array<string> SubscriptionTopics;
+var EventGrid EventGrid;
 
 function PostBeginPlay()
 {
@@ -10,22 +11,30 @@ function PostBeginPlay()
 
 function RegisterSelf()
 {
-    local EventGrid EventGrid;
+    EventGrid = FindOrCreateEventGrid();
+    Eventgrid.Subscribe(self);
+}
+
+function EventGrid FindOrCreateEventGrid()
+{
     local bool bFound;
+
+    if(EventGrid != None)
+        return EventGrid;
     
     foreach AllActors(class'EventGrid', EventGrid)
     {
-        EventGrid.Subscribe(self);
         bFound = true;
         break;
     }
-
+    
     if(!bFound)
     {
         log("EventGrid not found, creating one");
         EventGrid = Spawn(class'EventGrid');
-        Eventgrid.Subscribe(self);
     }
+    
+    return EventGrid;
 }
 
 function ProcessEvent(string Topic, JsonObject EventData)

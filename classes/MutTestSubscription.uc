@@ -10,43 +10,64 @@ function PostBeginPlay()
 
 function SpawnTestSubscriber()
 {
-    local TestSubscriber TS;
+    local TestSubscriber TestSubscriber;
 
-    TS = Spawn(class'TestSubscriber');
-    log("SPAWNED TestSubscriber");
-}
-
-function EventGrid FindEventGrid()
-{
-    local EventGrid MyEventGrid;
+    TestSubscriber = Spawn(class'TestSubscriber');
+    EventGrid = TestSubscriber.FindOrCreateEventGrid();
     
-    foreach AllActors(class'EventGrid', MyEventGrid)
-        return MyEventGrid;
+    log("Spawned TestSubscriber", 'EventGridTest');
+    log("Found EventGrid:" $ eval(EventGrid != None, "Yes", "No"), 'EventGridTest');
 
-    return None;
 }
 
 function Mutate(string Command, PlayerController PC)
 {
-    local JsonObject Json;
-    local bool bFound;
+    local string FloodAmount;
+    local int FloodAmountInt;
+    local int i;
 
     if(Command ~= "TestSubscription")
     {
-        EventGrid = FindEventGrid();
-        bFound = EventGrid != None;
-        log("MutTestSubscription: found EventGrid:" $ eval(bFound, "True", "False"));
+        TestSubscription();
+    }
+    else if(StartsWith(Command, "FloodTestSubscription"))
+    {
+        FloodAmount = Mid(Command, Len("FloodTestSubscription") + 2);
+        FloodAmountInt = Int(FloodAmount);
 
-        Json = new class'JsonObject';
-        Json.AddString("TestKey", "TestValue");
-        EventGrid.SendEvent("TestTopic", Json);
+        if(FloodAmountInt == 0)
+        {
+            PC.ClientMessage("Flood amount must be greater than 0");
+            return;
+        }
+
+        PC.ClientMessage("Flooding test subscription with " $ FloodAmount $ " events");
+
+        for(i = 0; i < FloodAmountInt; i++)
+            TestSubscription();
+        
+        PC.CLientMessage("Flooded TestSubscription " $ FloodAmount $ " times");
     }
     
     if(NextMutator != None)
         NextMutator.Mutate(Command, PC);
 }
 
+function TestSubscription()
+{
+    local JsonObject Json;
+
+    Json = new class'JsonObject';
+    Json.AddString("MyTopic", "Hello World");
+    EventGrid.SendEvent("TestTopic", Json);
+}
+
+function bool StartsWith(string Text, string Prefix)
+{
+    return Left(Text, Len(Prefix)) ~= Prefix;
+}
+
 defaultproperties
 {
-     FriendlyName="Event Grid - Test Mutator"
+     FriendlyName="**Event Grid - Test Mutator"
 }

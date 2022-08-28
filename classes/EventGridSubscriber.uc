@@ -11,11 +11,11 @@ function PostBeginPlay()
 
 function RegisterSelf()
 {
-    EventGrid = FindOrCreateEventGrid();
+    EventGrid = GetOrCreateEventGrid();
     Eventgrid.Subscribe(self);
 }
 
-function EventGrid FindOrCreateEventGrid()
+function EventGrid GetOrCreateEventGrid()
 {
     local bool bFound;
 

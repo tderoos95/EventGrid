@@ -13,7 +13,7 @@ function SpawnTestSubscriber()
     local TestSubscriber TestSubscriber;
 
     TestSubscriber = Spawn(class'TestSubscriber');
-    EventGrid = TestSubscriber.FindOrCreateEventGrid();
+    EventGrid = TestSubscriber.GetOrCreateEventGrid();
     
     log("Spawned TestSubscriber", 'EventGridTest');
     log("Found EventGrid:" $ eval(EventGrid != None, "Yes", "No"), 'EventGridTest');

@@ -32,10 +32,10 @@ function Mutate(string Command, PlayerController PC)
     }
     else if(StartsWith(Command, "FloodTestSubscription"))
     {
-        FloodAmount = Mid(Command, Len("FloodTestSubscription") + 2);
+        FloodAmount = Mid(Command, Len("FloodTestSubscription") + 1);
         FloodAmountInt = Int(FloodAmount);
 
-        if(FloodAmountInt == 0)
+        if(FloodAmountInt <= 0)
         {
             PC.ClientMessage("Flood amount must be greater than 0");
             return;

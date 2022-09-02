@@ -28,7 +28,12 @@ function SendEvent(string Topic, JsonObject EventData)
 
     for (i = 0; i < Subscriptions.length; i++)
     {
-        if (Subscriptions[i].Topic == Topic)
+        if (StartsWith(Topic, Subscriptions[i].Topic))
             Subscriptions[i].Subscriber.ProcessEvent(Topic, EventData);
     }
+}
+
+function bool StartsWith(string Text, string Prefix)
+{
+    return Left(Text, Len(Prefix)) ~= Prefix;
 }

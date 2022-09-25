@@ -21,7 +21,6 @@ function Subscribe(EventGridSubscriber Subscriber)
     }
 }
 
-// todo Publisher class or not?
 function SendEvent(string Topic, JsonObject EventData)
 {
     local int i;

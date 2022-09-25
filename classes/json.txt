@@ -1,8 +1,0 @@
-before flood 573.0mb memory usage (UT2004)
--> 100,000x json through eventgrid
--> 670.9mb memory usage
-
-100,000x JSON = 97.9mb
-1x JSON = 0.000979mb
-1x JSON = 1.002496kb
-1x JSON ~= 1kb

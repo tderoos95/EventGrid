@@ -40,3 +40,12 @@ function EventGrid GetOrCreateEventGrid()
 function ProcessEvent(string Topic, JsonObject EventData)
 {
 }
+
+event Destroyed()
+{
+    // Drop our subscriptions so a destroyed subscriber is never dispatched to (and doesn't leak entries).
+    if(EventGrid != None)
+        EventGrid.Unsubscribe(self);
+
+    Super.Destroyed();
+}

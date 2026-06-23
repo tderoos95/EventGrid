@@ -21,12 +21,27 @@ function Subscribe(EventGridSubscriber Subscriber)
     }
 }
 
+function Unsubscribe(EventGridSubscriber Subscriber)
+{
+    local int i;
+
+    // Remove this subscriber's entries (and any that went None) so SendEvent never hits a destroyed one.
+    for(i = Subscriptions.length - 1; i >= 0; i--)
+    {
+        if(Subscriptions[i].Subscriber == Subscriber || Subscriptions[i].Subscriber == None)
+            Subscriptions.Remove(i, 1);
+    }
+}
+
 function SendEvent(string Topic, JsonObject EventData)
 {
     local int i;
 
     for (i = 0; i < Subscriptions.length; i++)
     {
+        if (Subscriptions[i].Subscriber == None)
+            continue;
+
         if (StartsWith(Topic, Subscriptions[i].Topic))
             Subscriptions[i].Subscriber.ProcessEvent(Topic, EventData);
     }

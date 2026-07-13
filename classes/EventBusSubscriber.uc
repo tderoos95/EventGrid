@@ -1,7 +1,7 @@
-class EventGridSubscriber extends Info;
+class EventBusSubscriber extends Info;
 
 var array<string> SubscriptionTopics;
-var EventGrid EventGrid;
+var EventBus EventBus;
 
 function PostBeginPlay()
 {
@@ -11,18 +11,18 @@ function PostBeginPlay()
 
 function RegisterSelf()
 {
-    EventGrid = GetOrCreateEventGrid();
-    Eventgrid.Subscribe(self);
+    EventBus = GetOrCreateEventBus();
+    EventBus.Subscribe(self);
 }
 
-function EventGrid GetOrCreateEventGrid()
+function EventBus GetOrCreateEventBus()
 {
     local bool bFound;
 
-    if(EventGrid != None)
-        return EventGrid;
+    if(EventBus != None)
+        return EventBus;
     
-    foreach AllActors(class'EventGrid', EventGrid)
+    foreach AllActors(class'EventBus', EventBus)
     {
         bFound = true;
         break;
@@ -30,11 +30,11 @@ function EventGrid GetOrCreateEventGrid()
     
     if(!bFound)
     {
-        log("EventGrid not found, creating one");
-        EventGrid = Spawn(class'EventGrid');
+        log("EventBus not found, creating one");
+        EventBus = Spawn(class'EventBus');
     }
     
-    return EventGrid;
+    return EventBus;
 }
 
 function ProcessEvent(string Topic, JsonObject EventData)
@@ -44,8 +44,8 @@ function ProcessEvent(string Topic, JsonObject EventData)
 event Destroyed()
 {
     // Drop our subscriptions so a destroyed subscriber is never dispatched to (and doesn't leak entries).
-    if(EventGrid != None)
-        EventGrid.Unsubscribe(self);
+    if(EventBus != None)
+        EventBus.Unsubscribe(self);
 
     Super.Destroyed();
 }

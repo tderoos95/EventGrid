@@ -1,6 +1,6 @@
 class MutTestSubscription extends Mutator;
 
-var EventGrid EventGrid;
+var EventBus EventBus;
 
 function PostBeginPlay()
 {
@@ -13,10 +13,10 @@ function SpawnTestSubscriber()
     local TestSubscriber TestSubscriber;
 
     TestSubscriber = Spawn(class'TestSubscriber');
-    EventGrid = TestSubscriber.GetOrCreateEventGrid();
+    EventBus = TestSubscriber.GetOrCreateEventBus();
     
-    log("Spawned TestSubscriber", 'EventGridTest');
-    log("Found EventGrid:" $ eval(EventGrid != None, "Yes", "No"), 'EventGridTest');
+    log("Spawned TestSubscriber", 'EventBusTest');
+    log("Found EventBus:" $ eval(EventBus != None, "Yes", "No"), 'EventBusTest');
 
 }
 
@@ -59,7 +59,7 @@ function TestSubscription()
 
     Json = new class'JsonObject';
     Json.AddString("MyTopic", "Hello World");
-    EventGrid.SendEvent("TestTopic", Json);
+    EventBus.SendEvent("TestTopic", Json);
 }
 
 function bool StartsWith(string Text, string Prefix)

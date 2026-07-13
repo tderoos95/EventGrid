@@ -1,4 +1,4 @@
-class TestSubscriber extends EventGridSubscriber;
+class TestSubscriber extends EventBusSubscriber;
 
 const TestTopic = "MyTopic";
 

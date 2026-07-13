@@ -1,13 +1,13 @@
-class EventGrid extends Info;
+class EventBus extends Info;
 
 struct SubscriptionPair {
     var string Topic;
-    var EventGridSubscriber Subscriber;
+    var EventBusSubscriber Subscriber;
 };
 
 var array<SubscriptionPair> Subscriptions;
 
-function Subscribe(EventGridSubscriber Subscriber)
+function Subscribe(EventBusSubscriber Subscriber)
 {
     local int i, NewIndex;
 
@@ -21,7 +21,7 @@ function Subscribe(EventGridSubscriber Subscriber)
     }
 }
 
-function Unsubscribe(EventGridSubscriber Subscriber)
+function Unsubscribe(EventBusSubscriber Subscriber)
 {
     local int i;
 
